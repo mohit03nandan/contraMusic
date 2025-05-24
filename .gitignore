@@ -1,0 +1,47 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime files
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Audio uploads (local storage)
+uploads/
+
+# Optional: ignore coverage reports
+coverage/
+.nyc_output/
+
+# Optional: ignore build/dist folders
+dist/
+build/
+
+# Editor/IDE config
+.vscode/
+.idea/
+*.sw?
+
+# Docker artifacts (if using Docker)
+docker-compose.override.yml
+*.container
+*.dockerfile
