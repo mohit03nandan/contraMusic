@@ -3,6 +3,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const { createDatabasePool } = require('./config/DB');
 const authRoutes = require("./routes/auth")
+const songroutes = require("./routes/songRoutes")
 
 const db = require('./models')
 
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }))
 
 
 app.use('/api/auth', authRoutes);
+app.use('/api/songs',songroutes)
 
 
 
@@ -36,7 +38,7 @@ app.get('/health', async (req, res) => {
   }
 });
 
-db.sequelize.sync({ alter: true }) // or use { force: true } only for development
+db.sequelize.sync({ alter: true }) 
   .then(() => {
     console.log('✅ Database synced');
 

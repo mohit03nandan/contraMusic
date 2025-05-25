@@ -8,7 +8,6 @@ const generateToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '7d' });
 };
 
-// @desc Signup new user
 const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -31,7 +30,6 @@ const signup = async (req, res) => {
   }
 };
 
-// @desc Login user
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
