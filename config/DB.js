@@ -1,12 +1,16 @@
 // config/database.js
 const { Pool } = require('pg');
+const { Sequelize } = require('sequelize');
+const dotenv = require('dotenv');
+dotenv.config();
 
 /**
  * Creates a PostgreSQL pool using the DATABASE_URL from environment variables.
  * @returns {Pool} PostgreSQL Pool instance
  */
+const dbUrl = process.env.DATABASE_URL;
 const createDatabasePool = () => {
-  const dbUrl = process.env.DATABASE_URL;
+  
 
   if (!dbUrl) {
     console.error("❌ DATABASE_URL is not defined in environment variables.");
@@ -23,4 +27,11 @@ const createDatabasePool = () => {
   return pool;
 };
 
-module.exports = { createDatabasePool };
+const sequelize = new Sequelize(dbUrl, {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: { require: true, rejectUnauthorized: false },
+  },
+});
+
+module.exports = { createDatabasePool , sequelize};

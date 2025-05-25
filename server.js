@@ -2,18 +2,27 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const { createDatabasePool } = require('./config/DB');
+const authRoutes = require("./routes/auth")
+
+const db = require('./models')
 
 // Load environment variables
 dotenv.config();
 
 // Initialize Express app
 const app = express();
-const PORT = process.env.PORT || 7999;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
+
+app.use('/api/auth', authRoutes);
+
+
 
 // Setup DB connection
 const dbPool = createDatabasePool();
 
-// Example route to test DB connection
+// Test DB connection
 app.get('/health', async (req, res) => {
   try {
     const result = await dbPool.query('SELECT NOW()');
@@ -27,7 +36,21 @@ app.get('/health', async (req, res) => {
   }
 });
 
+db.sequelize.sync({ alter: true }) // or use { force: true } only for development
+  .then(() => {
+    console.log('✅ Database synced');
+
+    // Start server only after DB is ready
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('❌ Failed to sync database:', err.message);
+  });
+
 // Start server
+const PORT = process.env.PORT || 7999;
 app.listen(PORT, () => {
   console.log(`🚀 Server is running at http://localhost:${PORT}`);
 });
